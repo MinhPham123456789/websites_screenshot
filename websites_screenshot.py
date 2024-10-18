@@ -9,6 +9,7 @@ Note:
 + Make help menu
 + Look into window size 
 + Look into screenshot size 
+    + Source: https://stackoverflow.com/questions/74559415/how-to-take-a-screenshot-by-passing-coordinates-and-dimensions-in-playwright
 """
 async def take_screenshot(url, filename):
     """
