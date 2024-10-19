@@ -4,9 +4,11 @@ from playwright.async_api import async_playwright
 """
 Note:
 + Make the output dir to be the domain name service of the website
++ Make the output dir contains a subdir for images and a HTML report
 + Make the screenshots' name contains the path of the URLs
 + Make the script taking user input in CLI
 + Make help menu
++ Generate HTML report
 + Look into window size 
 + Look into screenshot size 
 """
@@ -23,13 +25,14 @@ async def take_screenshot(url, filename):
         # Launch a headless browser
         browser = await p.chromium.launch()
         page = await browser.new_page()
-        # Navigate to the URL
-        await page.goto(url)
-        # Wait for the page to load completely
-        await page.wait_for_timeout(2000) # wait for 2 seconds
-        # Take the screenshot
-        await page.screenshot(path=filename)
-        # Close the browser
+        try:
+            # Navigate to the URL
+            await page.goto(url)
+            # Wait for the page to load completely
+            await page.wait_for_timeout(2000) # wait for 2 seconds
+            # Take the screenshot
+            await page.screenshot(path=filename)
+            # Close the browser
         except Exception as e:
             print(f"Error taking screenshot of {url}: {e}")
         finally:
@@ -57,9 +60,12 @@ async def process_urls(urls, threads, output_dir):
         await asyncio.gather(*tasks)
 
 # Example usage
+# Must beginning with http protocol
 urls = [
-
+    "https://www.google.com",
+    "https://www.youtube.com",
+    "https://www.stackoverflow.com"
 ]
 
 # Run the async function
-asyncio.run(process_urls(urls))
+asyncio.run(process_urls(urls, 2, "./sample_output"))
