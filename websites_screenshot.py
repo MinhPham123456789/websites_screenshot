@@ -2,7 +2,7 @@ import asyncio
 from playwright.async_api import async_playwright
 import argparse
 from libs.utils import check_and_create_directory, read_file_to_array
-from libs.utils import get_url_concat_path_and_param, get_absolute_path
+from libs.utils import get_url_path_tail, get_absolute_path
 from libs.generate_html import initiate_html_report, generate_html_report
 
 """
@@ -52,9 +52,9 @@ async def process_urls(urls, threads, output_dir, headless_mode):
     base_path, image_path = check_and_create_directory(output_dir)
     html_report = initiate_html_report()
     image_data_list = []
-    for url in urls:
-        url_concat_path_and_param = get_url_concat_path_and_param(url)
-        filename = f"screenshot_{url_concat_path_and_param}.png" # Create a filename for each screenshot
+    for i, url in enumerate(urls):
+        url_concat_path_and_param = get_url_path_tail(url)
+        filename = f"screenshot_{i +1}_{url_concat_path_and_param}.png" # Create a filename for each screenshot
         save_screenshot_to = f'{image_path}/{filename}'
         image_data_list.append([save_screenshot_to, url])
         tasks.append(take_screenshot(url, save_screenshot_to, headless_mode))

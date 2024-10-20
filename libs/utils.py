@@ -31,7 +31,7 @@ def read_file_to_array(file_path):
         print(f"An error occurred: {e}")
         sys.exit(1)
 
-def get_url_concat_path_and_param(url):
+def get_url_path_tail(url):
     # Parse the URL
     parsed_url = urlparse(url)
     # Extract components
@@ -42,7 +42,7 @@ def get_url_concat_path_and_param(url):
     query = parsed_url.query            # e.g., 'query1=value1&query2=value2'
     fragment = parsed_url.fragment      # e.g., '' (empty in this case)
     path_tail = path.split('/')[-1]     # get path tail
-    return f'{path_tail}_{params}'
+    return f'{path_tail}'
 
 def get_absolute_path(path):
     return os.path.abspath(path)
